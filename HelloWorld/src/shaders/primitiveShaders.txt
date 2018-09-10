@@ -1,0 +1,67 @@
+### START : CIRCLE
+
+    $ START VERTEX
+
+        #version 330 core
+
+        layout(location = 0) in vec3 position;
+
+
+        uniform mat4 modelMatrix;
+        uniform mat4 projectionMatrix;
+        uniform mat4 viewMatrix;
+
+
+        void main(void){
+
+            gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position,1.0);
+
+        }
+
+    $ END VERTEX
+    $ START GEOMETRY
+
+        #version 330 core
+
+
+       layout(points) in;
+       layout(line_strip, max_vertices = 11) out;
+
+       out vec3 color;
+
+       const float PI = 3.1415926;
+
+       void main()
+       {
+
+
+           for (int i = 0; i <= 10; i++) {
+               float ang = PI * 2.0 / 10.0 * i;
+               color = vec3(1,1,1);
+               vec4 offset = vec4(cos(ang) * 0.4, -sin(ang) * 0.4, 0.0, 0.0);
+               gl_Position = gl_in[0].gl_Position + offset;
+
+               EmitVertex();
+           }
+
+           EndPrimitive();
+       }
+
+    $ END GEOMETRY
+    $ START FRAGMENT
+
+        #version 330 core
+
+        out vec4 out_Color;
+
+        in vec3 color;
+
+        void main(void){
+
+        	out_Color = vec4(color, 1.0);
+
+        }
+
+    $ END FRAGMENT
+
+### END : CIRCLE

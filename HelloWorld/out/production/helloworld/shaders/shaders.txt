@@ -1,0 +1,93 @@
+
+
+
+### START : TERRAIN SHADER
+
+    $ START VERTEX
+
+        #version 330 core
+
+
+        layout(location = 0) in vec3 position;
+
+
+        uniform mat4 modelMatrix;
+        uniform mat4 projectionMatrix;
+        uniform mat4 viewMatrix;
+
+
+        void main(void){
+
+            gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position,1.0);
+
+
+        }
+
+    $ END VERTEX
+    $ START GEOMETRY
+
+        #version 330 core
+
+
+        layout ( triangles ) in;
+        layout ( line_strip, max_vertices = 6 ) out;
+
+
+        out vec3 color;
+
+
+        void main(void){
+
+            color = vec3(0,0,1);
+            gl_Position = gl_in[0].gl_Position;
+            EmitVertex();
+
+            color = vec3(0,0,1);
+            gl_Position = gl_in[1].gl_Position;
+            EmitVertex();
+
+            EndPrimitive();
+
+
+
+            color = vec3(0,0,1);
+            gl_Position = gl_in[1].gl_Position;
+            EmitVertex();
+
+            color = vec3(0,0,1);
+            gl_Position = gl_in[2].gl_Position;
+            EmitVertex();
+
+            EndPrimitive();
+
+
+
+            color = vec3(0,0,1);
+            gl_Position = gl_in[0].gl_Position;
+            EmitVertex();
+
+            color = vec3(0,0,1);
+            gl_Position = gl_in[2].gl_Position;
+            EmitVertex();
+
+            EndPrimitive();
+        }
+
+    $ END GEOMETRY
+    $ START FRAGMENT
+
+        #version 330 core
+
+        out vec4 out_Color;
+
+        in vec3 color;
+
+        void main(void){
+
+        	out_Color = vec4(color, 1.0);
+
+        }
+
+    $ END FRAGMENT
+
+### END : TERRAIN SHADER
